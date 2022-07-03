@@ -3,7 +3,10 @@ import Navigation from './Navigation'
 
 function Start() {
   return (
-    <Navigation />
+    <div>
+      <Navigation />
+      <div>Start</div>
+    </div>
   )
 }
 

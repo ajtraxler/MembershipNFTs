@@ -1,8 +1,16 @@
 import React from 'react'
+import Navigation from './Navigation'
+
 
 function Minting() {
   return (
-    <div>Minting</div>
+    <div>
+      <div>
+
+        <Navigation />
+      </div>
+      <div>Minting</div>
+    </div>
   )
 }
 
