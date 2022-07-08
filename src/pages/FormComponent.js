@@ -1,26 +1,50 @@
 import React from 'react';
+import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import upload from '../apiServices/upload';
+import { create } from 'ipfs-http-client'
+const client = create('https://ipfs.infura.io:5001/api/v0')
+
 
 
 function FormComponent() {
+  const [fileUrl, updateFileUrl] = useState(``)
 
-  function handleFiles() {
-    const file = this.files[0];
-    let reader = new window.FileReader();
-    reader.readAsArrayBuffer(file);
-    reader.onloadend = async () => {
-      const buffer = await Buffer.from(reader.result);
-      const gateway = await upload(buffer);
-      console.log(gateway);
-    };
+  // async function handleFiles() {
+  //   // console.log("in handleFiles");
+  //   // const file = this.files[0];
+  //   // console.log(file);
+  //   // let reader = new window.FileReader();
+
+
+  //   // reader.readAsArrayBuffer(file);
+  //   // reader.onloadend = async () => {
+  //   //   const buffer = await Buffer.from(reader.result);
+  //   //   const gateway = await upload(buffer);
+  //   //   console.log(gateway);
+  //   // };
+  // }
+
+  async function onChange(e) {
+    const file = e.target.files[0];
+    try {
+      const added = await client.add(file);
+      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      updateFileUrl(url);
+      console.log(url);
+      return url;
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
+
 
 
 
   return (
     <div>
-      <Form>
+      <Form >
         <Form.Group className="mb-3" controlId="formNFTName">
           <Form.Label>Name of Your NFT Collection</Form.Label>
           <Form.Control type="string" placeholder="Enter collection name." />
@@ -63,7 +87,7 @@ function FormComponent() {
 
         <Form.Group className="mb-3" controlId="input">
           <Form.Label>Upload Image For NFT</Form.Label>
-          <Form.Control type="file" />
+          <Form.Control type="file" onChange={onChange} />
           {/* <Form.Text className="text-muted">
       
             </Form.Text> */}
@@ -71,7 +95,7 @@ function FormComponent() {
 
         <br></br>
 
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" >
           Submit
         </Button>
       </Form>
