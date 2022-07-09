@@ -8,7 +8,15 @@ const client = create('https://ipfs.infura.io:5001/api/v0')
 
 
 function FormComponent() {
-  const [fileUrl, updateFileUrl] = useState(``)
+  const [fileUrl, updateFileUrl] = useState(``);
+  const [nftName, setNftName] = useState(``);
+  const [creatorN, setCreatorN] = useState(``);
+  const [descriptionN, setDescriptionN] = useState(``);
+  const [quantityN, setQuantityN] = useState(0);
+  const [priceN, setPriceN] = useState(0);
+  const [quantN, setQuantN] = useState(0);
+
+
 
   // async function handleFiles() {
   //   // console.log("in handleFiles");
@@ -39,55 +47,102 @@ function FormComponent() {
     }
   }
 
+  async function submitHandlerForm(e) {
+    e.preventDefault();
+    // setNftName(e.target.group.formNFTName.value);
+    const nftName = document.getElementById('formNFTName').value;
+    // setCreatorN(e.target.formCreatorName.value);
+    const creatorName = document.getElementById('formCreatorName').value;
+    // setDescriptionN(e.target.info.value);
+    const description = document.getElementById('info').value;
+    // setQuantityN(e.target.quantity.value);
+    const quantity = document.getElementById('quantity').value;
+    // setPriceN(e.target.price.value);
+    const price = document.getElementById('price').value;
+    // setQuantN(e.target.quantity.value);
+    console.log(nftName, creatorName, description, quantity, price);
+
+    // //according to NFT standard on opensea
+    // const metaData = {
+    //   name: e.target.group.formNFTName.value,
+    //   description: e.target.info.value,
+    //   image: fileUrl,
+    //   attributes: [
+    //     {
+    //       "trait_type": "quantity",
+    //       "value": e.target.quantity.value
+    //     },
+    //     {
+    //       "trait_type": "creator",
+    //       "value": e.target.formCreatorName.value
+    //     }
+    //   ]
+    // };
+
+    // console.log("metadata", metaData);
+    // console.log("all single values", nftName, creatorN, descriptionN, quantityN, priceN, quantN);
+    // console.log("now call smart contract");
+
+
+
+    //update all states for ssmart contrtact call
+
+
+
+
+
+
+
+  }
 
 
 
   return (
     <div>
-      <Form >
-        <Form.Group className="mb-3" controlId="formNFTName">
+      <Form onSubmit={submitHandlerForm}>
+        <Form.Group className="mb-3" >
           <Form.Label>Name of Your NFT Collection</Form.Label>
-          <Form.Control type="string" placeholder="Enter collection name." />
+          <Form.Control type="string" id="formNFTName" placeholder="Enter collection name." />
           <Form.Text className="text-muted">
             What you want your NFT Collection to be called.
           </Form.Text>
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formCreatorName">
+        <Form.Group className="mb-3" >
           <Form.Label>Name of Content Creator</Form.Label>
-          <Form.Control type="string" />
+          <Form.Control type="string" id="formCreatorName" />
           <Form.Text className="text-muted">
             The name of the collection creator.
           </Form.Text>
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="info">
+        <Form.Group className="mb-3" >
           <Form.Label>Info About What NFT gives holders access to.</Form.Label>
-          <Form.Control type="string" />
+          <Form.Control type="string" id="info" />
           <Form.Text className="text-muted">
             What are the perks of holding your NFT?
           </Form.Text>
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="quantity">
+        <Form.Group className="mb-3" >
           <Form.Label>Number of NFTs</Form.Label>
-          <Form.Control type="number" />
+          <Form.Control type="number" id="quantity" />
           <Form.Text className="text-muted">
             Total quantity of NFTs for this collection.
           </Form.Text>
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="price">
+        <Form.Group className="mb-3" >
           <Form.Label>Price per NFT in ether</Form.Label>
-          <Form.Control type="number" />
+          <Form.Control type="number" id="price" />
           <Form.Text className="text-muted">
             Price per NFT.
           </Form.Text>
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="input">
+        <Form.Group className="mb-3" >
           <Form.Label>Upload Image For NFT</Form.Label>
-          <Form.Control type="file" onChange={onChange} />
+          <Form.Control type="file" onChange={onChange} id="input" />
           {/* <Form.Text className="text-muted">
       
             </Form.Text> */}
