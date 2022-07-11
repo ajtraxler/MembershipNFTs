@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import upload from '../apiServices/upload';
+// import upload from '../apiServices/upload';
 import { create } from 'ipfs-http-client'
 const client = create('https://ipfs.infura.io:5001/api/v0')
 
@@ -9,6 +9,7 @@ const client = create('https://ipfs.infura.io:5001/api/v0')
 
 function FormComponent() {
   const [fileUrl, updateFileUrl] = useState(``);
+  const [metaUrl, updateMetaUrl] = useState(``);
   const [nftName, setNftName] = useState(``);
   const [creatorN, setCreatorN] = useState(``);
   const [descriptionN, setDescriptionN] = useState(``);
@@ -47,6 +48,21 @@ function FormComponent() {
     }
   }
 
+  async function uploadMetaData(metaD) {
+    try {
+      const added = await client.add(metaD);
+      const mUrl = `https://ipfs.infura.io/ipfs/${added.path}`;
+      updateMetaUrl(mUrl);
+      console.log("metaUrl", mUrl);
+      return mUrl;
+
+    }
+    catch (err) {
+      console.log(err);
+    }
+
+  }
+
   async function submitHandlerForm(e) {
     e.preventDefault();
     // setNftName(e.target.group.formNFTName.value);
@@ -63,22 +79,26 @@ function FormComponent() {
     console.log(nftName, creatorName, description, quantity, price);
 
     // //according to NFT standard on opensea
-    // const metaData = {
-    //   name: e.target.group.formNFTName.value,
-    //   description: e.target.info.value,
-    //   image: fileUrl,
-    //   attributes: [
-    //     {
-    //       "trait_type": "quantity",
-    //       "value": e.target.quantity.value
-    //     },
-    //     {
-    //       "trait_type": "creator",
-    //       "value": e.target.formCreatorName.value
-    //     }
-    //   ]
-    // };
+    const metaData = {
+      name: nftName,
+      description: description,
+      image: fileUrl,
+      attributes: [
+        {
+          "trait_type": "quantity",
+          "value": quantity
+        },
+        {
+          "trait_type": "creator",
+          "value": creatorName
+        }
+      ]
+    };
 
+    const metaJSON = JSON.stringify(metaData);
+    console.log(metaJSON);
+
+    const metaCDI = uploadMetaData(metaJSON);
     // console.log("metadata", metaData);
     // console.log("all single values", nftName, creatorN, descriptionN, quantityN, priceN, quantN);
     // console.log("now call smart contract");
