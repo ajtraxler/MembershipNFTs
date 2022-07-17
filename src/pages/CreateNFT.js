@@ -11,12 +11,12 @@ function CreateNFT() {
       <Navigation />
 
 
+      <div class="bgColor">
+        <div class="formBody">
+          <FormComponent />
+        </div>
 
-      <div class="formBody">
-        <FormComponent />
       </div>
-
-
     </div>
 
 

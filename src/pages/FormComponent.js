@@ -126,7 +126,7 @@ function FormComponent() {
       <Form onSubmit={submitHandlerForm}>
         <Form.Group className="mb-3" >
           <Form.Label>Name of Your NFT Collection</Form.Label>
-          <Form.Control type="string" id="formNFTName" placeholder="Enter collection name." />
+          <Form.Control type="string" id="formNFTName" />
           <Form.Text className="text-muted">
             What you want your NFT Collection to be called.
           </Form.Text>

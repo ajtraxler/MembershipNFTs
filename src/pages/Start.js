@@ -20,14 +20,17 @@ function Start() {
     <div >
       <Navigation />
       <div class="designStart">
+        <div class="blob"> </div>
+
+        <br></br>
         <h1>Create your Personal NFT Membership</h1>
-        {/* <br></br> */}
         <h3>Click below to start</h3>
         <br></br>
 
         <Button variant="primary" onClick={handlerFunction} >Start</Button>
+        <div class="blob"> </div>
       </div>
-    </div>
+    </div >
   )
 }
 

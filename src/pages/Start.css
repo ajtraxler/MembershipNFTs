@@ -1,4 +1,11 @@
 .designStart {
-  margin: 20%;
+  /* background-image: ; */
+  /* margin: ; */
   text-align: center;
+  background-image: linear-gradient(45deg, white, lightpink)
+}
+
+.blob {
+  background-image: url(https://media4.giphy.com/media/euj9YHiwUUzrZduQIJ/giphy.gif);
+  height: 300px;
 }

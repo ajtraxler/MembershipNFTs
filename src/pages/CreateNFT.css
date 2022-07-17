@@ -1,4 +1,7 @@
-.formBody {
-  margin: 60px;
+.bgColor {
+  background-image: linear-gradient(45deg, white, lightpink)
+}
 
+.formBody {
+  padding: 60px;
 }
