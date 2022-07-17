@@ -1,10 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
+import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 // import upload from '../apiServices/upload';
 import { create } from 'ipfs-http-client'
 const client = create('https://ipfs.infura.io:5001/api/v0')
-
 
 
 function FormComponent() {
@@ -16,6 +16,9 @@ function FormComponent() {
   const [quantityN, setQuantityN] = useState(0);
   const [priceN, setPriceN] = useState(0);
   const [quantN, setQuantN] = useState(0);
+  const navigate = useNavigate();
+  // const location = useLocation();
+  // const state = location.state;
 
 
 
@@ -65,17 +68,17 @@ function FormComponent() {
 
   async function submitHandlerForm(e) {
     e.preventDefault();
-    // setNftName(e.target.group.formNFTName.value);
     const nftName = document.getElementById('formNFTName').value;
-    // setCreatorN(e.target.formCreatorName.value);
+    setNftName(nftName);
     const creatorName = document.getElementById('formCreatorName').value;
-    // setDescriptionN(e.target.info.value);
+    setCreatorN(creatorName);
     const description = document.getElementById('info').value;
-    // setQuantityN(e.target.quantity.value);
+    setDescriptionN(description);
     const quantity = document.getElementById('quantity').value;
-    // setPriceN(e.target.price.value);
-    const price = document.getElementById('price').value;
+    setQuantityN(quantity);
     // setQuantN(e.target.quantity.value);
+    const price = document.getElementById('price').value;
+    setPriceN(price);
     console.log(nftName, creatorName, description, quantity, price);
 
     // //according to NFT standard on opensea
@@ -103,6 +106,7 @@ function FormComponent() {
     // console.log("all single values", nftName, creatorN, descriptionN, quantityN, priceN, quantN);
     // console.log("now call smart contract");
 
+    navigate('../minting', { state: { metaData } });
 
 
     //update all states for ssmart contrtact call
