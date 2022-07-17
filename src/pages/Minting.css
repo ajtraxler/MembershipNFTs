@@ -1,4 +1,12 @@
 .formBody {
-  margin: 33%;
+  margin-right: 22%;
+  margin-left: 22%;
+  margin-bottom: 20%;
+
+}
+
+.overall {
+  height: 50%;
+  /* width: 70%; */
 
 }
