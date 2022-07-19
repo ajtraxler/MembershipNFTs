@@ -7,7 +7,7 @@ import "./Minting.css"
 function Minting() {
   const location = useLocation();
   const state = location.state;
-  console.log(state.metaData, "this iss the state creator name");
+  console.log(state.metaData, "this is the state ");
   const data = state.metaData;
   return (
     <div class='overall'>
