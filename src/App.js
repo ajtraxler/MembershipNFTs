@@ -12,6 +12,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import FormComponent from './pages/FormComponent';
 import Navigation from './pages/Navigation';
 
+// //importing ABI
+// import MembershipFactory from '../../../server/artifacts/contracts/MembershipFactory.sol';
+
+// //get contract where it was deployed and dedclare as const
+// const membershipFactoryAddress = "0xe9396fD158aa99A5B9c4b725156133D2EAE12D86";
+
 function App() {
   return (
     <BrowserRouter>

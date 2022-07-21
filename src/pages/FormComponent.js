@@ -3,8 +3,16 @@ import { useState } from 'react';
 import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 // import upload from '../apiServices/upload';
-import { create } from 'ipfs-http-client'
+//importing ABI
+import { create } from 'ipfs-http-client';
+import MembershipFactory from './abi/MembershipFactory.json';
+import { ethers } from 'ethers';
+
 const client = create('https://ipfs.infura.io:5001/api/v0')
+//get contract where it was deployed and dedclare as const
+const membershipFactoryAddress = "0xe9396fD158aa99A5B9c4b725156133D2EAE12D86";
+
+
 
 
 function FormComponent() {
@@ -16,26 +24,31 @@ function FormComponent() {
   const [quantityN, setQuantityN] = useState(0);
   const [priceN, setPriceN] = useState(0);
   const [quantN, setQuantN] = useState(0);
+  const [hash, setHash] = useState("")
   const navigate = useNavigate();
   // const location = useLocation();
   // const state = location.state;
 
 
 
-  // async function handleFiles() {
-  //   // console.log("in handleFiles");
-  //   // const file = this.files[0];
-  //   // console.log(file);
-  //   // let reader = new window.FileReader();
+  //helper function
+  async function deployNewNFT(_name, _symbol) {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(membershipFactoryAddress, MembershipFactory.abi, signer);
 
+    try {
+      const newNFTMembership = await contract.createMembership(_name, _symbol);
+      console.log(newNFTMembership);
+      await setHash(newNFTMembership.hash);
+      return newNFTMembership;
 
-  //   // reader.readAsArrayBuffer(file);
-  //   // reader.onloadend = async () => {
-  //   //   const buffer = await Buffer.from(reader.result);
-  //   //   const gateway = await upload(buffer);
-  //   //   console.log(gateway);
-  //   // };
-  // }
+    }
+    catch (err) {
+      console.log(err);
+
+    }
+  }
 
   async function onChange(e) {
     const file = e.target.files[0];
@@ -105,7 +118,8 @@ function FormComponent() {
     // console.log("metadata", metaData);
     // console.log("all single values", nftName, creatorN, descriptionN, quantityN, priceN, quantN);
     // console.log("now call smart contract");
-
+    const newHash = await deployNewNFT(nftName, creatorName);
+    console.log("new hash", newHash);
     navigate('../minting', { state: { metaData } });
 
 
