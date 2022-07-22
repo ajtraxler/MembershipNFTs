@@ -3,12 +3,37 @@ import Navigation from './Navigation'
 import { Button } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 import "./Minting.css"
+import { ethers } from 'ethers';
+import Membership from "./abi/Membership.json";
+
 
 function Minting() {
   const location = useLocation();
   const state = location.state;
-  console.log(state.metaData, "this is the state ");
-  const data = state.metaData;
+  console.log(state, "state");
+  console.log(state.metaDataAndHash, "metaand hash")
+  const data = state.metaDataAndHash;
+  const contractAddress = data.hash;
+  console.log(contractAddress);
+
+  // async function onMint() {
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //   const signer = provider.getSigner();
+  //   const contract = new ethers.Contract(contractAddress, Membership.abi, signer);
+
+  //   try {
+  //     const reply = await contract.baseExtension();
+  //     console.log(reply);
+  //     return reply;
+
+  //   }
+  //   catch (err) {
+  //     console.log(err);
+
+  //   }
+
+  // }
+
   return (
     <div class='overall'>
       <div>

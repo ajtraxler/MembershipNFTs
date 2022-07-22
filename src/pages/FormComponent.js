@@ -114,13 +114,33 @@ function FormComponent() {
     const metaJSON = JSON.stringify(metaData);
     console.log(metaJSON);
 
-    const metaCDI = uploadMetaData(metaJSON);
+    const metaCDI = await uploadMetaData(metaJSON);
     // console.log("metadata", metaData);
     // console.log("all single values", nftName, creatorN, descriptionN, quantityN, priceN, quantN);
     // console.log("now call smart contract");
     const newHash = await deployNewNFT(nftName, creatorName);
-    console.log("new hash", newHash);
-    navigate('../minting', { state: { metaData } });
+    console.log("new hash", newHash.hash);
+    const metaDataAndHash = {
+      name: nftName,
+      description: description,
+      image: fileUrl,
+      hash: newHash.hash,
+      CDI: metaCDI,
+      attributes: [
+        {
+          "trait_type": "quantity",
+          "value": quantity
+        },
+        {
+          "trait_type": "creator",
+          "value": creatorName
+        }
+      ]
+
+    };
+
+    console.log(metaDataAndHash);
+    navigate('../minting', { state: { metaDataAndHash } });
 
 
     //update all states for ssmart contrtact call
