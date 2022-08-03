@@ -24,7 +24,8 @@ function FormComponent() {
   const [quantityN, setQuantityN] = useState(0);
   const [priceN, setPriceN] = useState(0);
   const [quantN, setQuantN] = useState(0);
-  const [hash, setHash] = useState("")
+  const [hash, setHash] = useState("");
+  const [symbolN, setSymbolN] = useState("");
   const navigate = useNavigate();
   // const location = useLocation();
   // const state = location.state;
@@ -38,11 +39,14 @@ function FormComponent() {
     const contract = new ethers.Contract(membershipFactoryAddress, MembershipFactory.abi, signer);
 
     try {
+      //works previous
       const newNFTMembership = await contract.createMembership(_name, _symbol);
       console.log(newNFTMembership);
       await setHash(newNFTMembership.hash);
       return newNFTMembership;
 
+
+      //nwe ty
     }
     catch (err) {
       console.log(err);
@@ -92,7 +96,9 @@ function FormComponent() {
     // setQuantN(e.target.quantity.value);
     const price = document.getElementById('price').value;
     setPriceN(price);
-    console.log(nftName, creatorName, description, quantity, price);
+    const symbol = document.getElementById('formSymbolName').value;
+    setSymbolN(symbol);
+    console.log(nftName, creatorName, description, quantity, price, symbol);
 
     // //according to NFT standard on opensea
     const metaData = {
@@ -126,6 +132,8 @@ function FormComponent() {
       image: fileUrl,
       hash: newHash.hash,
       CDI: metaCDI,
+      cost: price,
+      symbol: symbol,
       attributes: [
         {
           "trait_type": "quantity",
@@ -163,6 +171,14 @@ function FormComponent() {
           <Form.Control type="string" id="formNFTName" />
           <Form.Text className="text-muted">
             What you want your NFT Collection to be called.
+          </Form.Text>
+        </Form.Group>
+
+        <Form.Group className="mb-3" >
+          <Form.Label>NFT Symbol</Form.Label>
+          <Form.Control type="string" id="formSymbolName" />
+          <Form.Text className="text-muted">
+            Choose 3 letter abbreviaton for your NFT.
           </Form.Text>
         </Form.Group>
 

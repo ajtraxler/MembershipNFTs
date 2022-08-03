@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 import "./Minting.css"
 import { ethers } from 'ethers';
-import Membership from "./abi/Membership.json";
+import MembershipFactory from "./abi/MembershipFactory.json";
 
 
 function Minting() {
@@ -16,23 +16,24 @@ function Minting() {
   const contractAddress = data.hash;
   console.log(contractAddress);
 
-  // async function onMint() {
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const signer = provider.getSigner();
-  //   const contract = new ethers.Contract(contractAddress, Membership.abi, signer);
+  async function onMint() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract("0x9b555557D259a30cCB5B0e8E44D27C144F93F0BC", MembershipFactory.abi, signer);
 
-  //   try {
-  //     const reply = await contract.baseExtension();
-  //     console.log(reply);
-  //     return reply;
+    try {
 
-  //   }
-  //   catch (err) {
-  //     console.log(err);
+      const cont = await contract.connect(signer)._tokenIds();
+      console.log("signed and connected", cont);
+      return cont;
 
-  //   }
+    }
+    catch (err) {
+      console.log(err);
 
-  // }
+    }
+
+  }
 
   return (
     <div class='overall'>
@@ -54,7 +55,7 @@ function Minting() {
           {/* <br></br>
           <br></br> */}
 
-          <Button>Mint the Drop!</Button>
+          <Button onClick={onMint}>Mint the Drop!</Button>
         </div>
       </div>
     </div >
