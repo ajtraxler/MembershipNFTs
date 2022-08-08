@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 import "./Minting.css"
 import { ethers } from 'ethers';
-import MembershipFactory from "./abi/MembershipFactory.json";
+import Membership2 from './artifacts/contracts/Membership2.sol/Membership.json'
 
 
 function Minting() {
@@ -20,11 +20,17 @@ function Minting() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
     console.log(signer, "thtis is tht signer")
-    const contract = new ethers.Contract(contractAddress, MembershipFactory.abi, signer);
-    console.log(contract);
-    try {
 
-      await contract.connect(signer)._tokenIds;
+    try {
+      console.log("adding new contract here")
+      const contract = new ethers.Contract(contractAddress, Membership2.abi, signer);
+      const uri = await contract._baseURI();
+      console.log("base uri", uri)
+      // const mint = await contract.mintNewToken();
+      // console.log(mint);
+
+      // await contract.mintNewToken();
+      // await contract.connect(signer)._tokenIds;
 
     }
     catch (err) {

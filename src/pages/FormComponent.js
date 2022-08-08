@@ -5,12 +5,12 @@ import { Form, Button } from 'react-bootstrap';
 // import upload from '../apiServices/upload';
 //importing ABI
 import { create } from 'ipfs-http-client';
-import MembershipFactory from './abi/MembershipFactory.json';
+import Membership2 from './artifacts/contracts/Membership2.sol/Membership';
 import { ethers } from 'ethers';
 
 const client = create('https://ipfs.infura.io:5001/api/v0')
 //get contract where it was deployed and dedclare as const
-const membershipFactoryAddress = "0xe9396fD158aa99A5B9c4b725156133D2EAE12D86";
+// const membershipFactoryAddress = "0xe9396fD158aa99A5B9c4b725156133D2EAE12D86";
 
 
 
@@ -32,19 +32,22 @@ function FormComponent() {
 
 
 
+
   //helper function
-  async function deployNewNFT(_name, _symbol) {
+  async function deployNewNFT(_name, _symbol, _URI, _cost, _maxMintAmount) {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     console.log(signer, "sgner form");
-    const contract = new ethers.Contract(membershipFactoryAddress, MembershipFactory.abi, signer);
+
 
     try {
       //works previous
-      const newNFTMembership = await contract.createMembership(_name, _symbol);
-      console.log(newNFTMembership);
-      await setHash(newNFTMembership.hash);
-      return newNFTMembership;
+      const factory = new ethers.ContractFactory(Membership2.abi, Membership2.bytecode, signer);
+      const contract = await factory.deploy(nftName, symbolN, metaUrl, priceN, quantityN);
+      await contract.deployed();
+      console.log("contract address new factory", contract.address);
+
+      return contract.address;
 
 
       //nwe ty
@@ -125,13 +128,13 @@ function FormComponent() {
     // console.log("metadata", metaData);
     // console.log("all single values", nftName, creatorN, descriptionN, quantityN, priceN, quantN);
     // console.log("now call smart contract");
-    const newHash = await deployNewNFT(nftName, symbol);
-    console.log("new hash", newHash.hash);
+    const newHash = await deployNewNFT(nftName, symbol, metaCDI, price, quantity);
+    console.log("new hash", newHash);
     const metaDataAndHash = {
       name: nftName,
       description: description,
       image: fileUrl,
-      hash: newHash.hash,
+      hash: newHash,
       CDI: metaCDI,
       cost: price,
       symbol: symbol,
