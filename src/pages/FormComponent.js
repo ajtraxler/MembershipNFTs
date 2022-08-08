@@ -187,6 +187,14 @@ function FormComponent() {
         </Form.Group>
 
         <Form.Group className="mb-3" >
+          <Form.Label>Upload Image For NFT</Form.Label>
+          <Form.Control type="file" onChange={onChange} id="input" />
+          {/* <Form.Text className="text-muted">
+      
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group className="mb-3" >
           <Form.Label>Name of Content Creator</Form.Label>
           <Form.Control type="string" id="formCreatorName" />
           <Form.Text className="text-muted">
@@ -212,19 +220,13 @@ function FormComponent() {
 
         <Form.Group className="mb-3" >
           <Form.Label>Price per NFT in ether</Form.Label>
-          <Form.Control type="number" id="price" />
+          <Form.Control type="number" step="0.01" min="0.00" max="1000.00" id="price" />
           <Form.Text className="text-muted">
             Price per NFT.
           </Form.Text>
         </Form.Group>
 
-        <Form.Group className="mb-3" >
-          <Form.Label>Upload Image For NFT</Form.Label>
-          <Form.Control type="file" onChange={onChange} id="input" />
-          {/* <Form.Text className="text-muted">
-      
-            </Form.Text> */}
-        </Form.Group>
+
 
         <br></br>
 

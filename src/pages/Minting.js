@@ -24,9 +24,12 @@ function Minting() {
     try {
       console.log("adding new contract here")
       const contract = new ethers.Contract(contractAddress, Membership2.abi, signer);
-      const uri = await contract._baseURI();
-      console.log("base uri", uri)
-      // const mint = await contract.mintNewToken();
+      const options = { value: ethers.utils.parseEther(data.cost) }
+      const id = await contract.connect(signer).mintNewToken(options);
+      console.log(id, "id");
+
+      // console.log("base uri", uri)
+      // const mint = await contract..mintNewToken;
       // console.log(mint);
 
       // await contract.mintNewToken();
