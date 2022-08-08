@@ -36,6 +36,7 @@ function FormComponent() {
   async function deployNewNFT(_name, _symbol) {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
+    console.log(signer, "sgner form");
     const contract = new ethers.Contract(membershipFactoryAddress, MembershipFactory.abi, signer);
 
     try {
@@ -124,7 +125,7 @@ function FormComponent() {
     // console.log("metadata", metaData);
     // console.log("all single values", nftName, creatorN, descriptionN, quantityN, priceN, quantN);
     // console.log("now call smart contract");
-    const newHash = await deployNewNFT(nftName, creatorName);
+    const newHash = await deployNewNFT(nftName, symbol);
     console.log("new hash", newHash.hash);
     const metaDataAndHash = {
       name: nftName,

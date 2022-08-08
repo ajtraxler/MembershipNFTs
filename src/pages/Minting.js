@@ -14,18 +14,17 @@ function Minting() {
   console.log(state.metaDataAndHash, "metaand hash")
   const data = state.metaDataAndHash;
   const contractAddress = data.hash;
-  console.log(contractAddress);
+  console.log(contractAddress, "connect to this");
 
   async function onMint() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract("0x9b555557D259a30cCB5B0e8E44D27C144F93F0BC", MembershipFactory.abi, signer);
-
+    const signer = await provider.getSigner();
+    console.log(signer, "thtis is tht signer")
+    const contract = new ethers.Contract(contractAddress, MembershipFactory.abi, signer);
+    console.log(contract);
     try {
 
-      const cont = await contract.connect(signer)._tokenIds();
-      console.log("signed and connected", cont);
-      return cont;
+      await contract.connect(signer)._tokenIds;
 
     }
     catch (err) {
