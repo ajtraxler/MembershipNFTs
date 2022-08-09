@@ -43,6 +43,7 @@ function FormComponent() {
 
     try {
       //works previous
+      console.log("typeOfs expected s,s,s,n,n", typeof nftName, typeof symbolN, typeof metaUrl, typeof priceN, typeof quantityN)
       const factory = new ethers.ContractFactory(Membership2.abi, Membership2.bytecode, signer);
       const contract = await factory.deploy(nftName, symbolN, metaUrl, priceN, quantityN);
       await contract.deployed();
