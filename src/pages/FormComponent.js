@@ -36,6 +36,7 @@ function FormComponent() {
   //helper function
   async function deployNewNFT(_name, _symbol, _URI, _cost, _maxMintAmount) {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
     const signer = provider.getSigner();
     console.log(signer, "sgner form");
 
