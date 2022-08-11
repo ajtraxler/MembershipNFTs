@@ -4,11 +4,33 @@ import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 // import upload from '../apiServices/upload';
 //importing ABI
-import { create } from 'ipfs-http-client';
+import { create, CID, IPFSHTTPClient } from 'ipfs-http-client';
 import Membership2 from './artifacts/contracts/Membership2.sol/Membership';
 import { ethers } from 'ethers';
 
-const client = create('https://ipfs.infura.io:5001/api/v0')
+
+
+// const client = create('https://ipfs.infura.io:5001/api/v0');
+const projectID = process.env.PROJECT_ID;
+const projectSecret = process.env.PROJECT_SECRET;
+//IMPORTANT NOTEE--> for it to actuall work have to paste inside btoa("abshbcdjf:ajdfhkjlfha")
+//cannot do this in this versionn as on github.
+const auth = "Basic " + btoa(projectID + ":" + projectSecret);
+
+
+
+
+const client = create({
+  url: "https://ipfs.infura.io:5001/api/v0",
+  headers: {
+    authorization: auth,
+  },
+});
+console.log(client);
+
+// const client = create(process.env.INFURA);
+
+
 //get contract where it was deployed and dedclare as const
 // const membershipFactoryAddress = "0xe9396fD158aa99A5B9c4b725156133D2EAE12D86";
 
@@ -64,6 +86,7 @@ function FormComponent() {
     const file = e.target.files[0];
     try {
       const added = await client.add(file);
+      console.log(added, "added")
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
       updateFileUrl(url);
       console.log(url);
@@ -79,6 +102,7 @@ function FormComponent() {
       const added = await client.add(metaD);
       const mUrl = `https://ipfs.infura.io/ipfs/${added.path}`;
       updateMetaUrl(mUrl);
+
       console.log("metaUrl", mUrl);
       return mUrl;
 
@@ -130,6 +154,7 @@ function FormComponent() {
     // console.log("metadata", metaData);
     // console.log("all single values", nftName, creatorN, descriptionN, quantityN, priceN, quantN);
     // console.log("now call smart contract");
+    console.log("data passed into site to be deployed", nftName, symbol, metaCDI, price, quantity);
     const newHash = await deployNewNFT(nftName, symbol, metaCDI, price, quantity);
     console.log("new hash", newHash);
     const metaDataAndHash = {
@@ -154,7 +179,7 @@ function FormComponent() {
     };
 
     console.log(metaDataAndHash);
-    navigate('../minting', { state: { metaDataAndHash } });
+    navigate(`../minting`, { state: { metaDataAndHash } });
 
 
     //update all states for ssmart contrtact call
@@ -188,13 +213,6 @@ function FormComponent() {
           </Form.Text>
         </Form.Group>
 
-        <Form.Group className="mb-3" >
-          <Form.Label>Upload Image For NFT</Form.Label>
-          <Form.Control type="file" onChange={onChange} id="input" />
-          {/* <Form.Text className="text-muted">
-      
-            </Form.Text> */}
-        </Form.Group>
 
         <Form.Group className="mb-3" >
           <Form.Label>Name of Content Creator</Form.Label>
@@ -228,6 +246,13 @@ function FormComponent() {
           </Form.Text>
         </Form.Group>
 
+        <Form.Group className="mb-3" >
+          <Form.Label>Upload Image For NFT</Form.Label>
+          <Form.Control type="file" onChange={onChange} id="input" />
+          {/* <Form.Text className="text-muted">
+      
+            </Form.Text> */}
+        </Form.Group>
 
 
         <br></br>

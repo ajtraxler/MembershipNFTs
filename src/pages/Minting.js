@@ -22,11 +22,18 @@ function Minting() {
     console.log(signer, "thtis is tht signer")
 
     try {
-      console.log("adding new contract here")
+      console.log("adding new contract here");
+      //surprised this works as initialising contract with decimal...
       const contract = new ethers.Contract(contractAddress, Membership2.abi, signer);
-      const options = { value: ethers.utils.parseEther(data.cost) }
-      const id = await contract.connect(signer).mintNewToken(options);
-      console.log(id, "id");
+      // const options = { value: ethers.utils.parseEther(data.cost) }
+      console.log(contract);
+      let maxMintAmount = await contract.connect(signer).maxMintAmount();
+      console.log(maxMintAmount, "max mint amount broski");
+
+      let txMint = await contract.connect(signer).mintNewToken({ value: data.cost });
+      console.log(txMint);
+      // const id = await contract.connect(signer).mintNewToken(options);
+      // console.log(id, "id");
 
       // console.log("base uri", uri)
       // const mint = await contract..mintNewToken;
